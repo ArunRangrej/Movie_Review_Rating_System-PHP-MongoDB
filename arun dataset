@@ -1,0 +1,166 @@
+use arun
+db.createCollection("movie");
+
+db.movie.insert(
+{
+  
+    "title" : "Toy Story 4",
+    "img" : "Toy_Strory.jpg",
+    "year" : 2011,
+    "movie_type" : "U",
+    "released" : ISODate("2010-06-18T04:00:00.000Z"),
+    "runtime" : 206,
+    "category" :  "Animation",
+    "director" : "Lee Unkrich",
+    "writer" :  "John Lasseter",
+    "plot" : "The toys are mistakenly delivered to a day-care center instead of the attic right before Andy leaves for college.",
+    "awards" : {
+        "wins" : 56,
+        "nominations" : 86
+              },
+    "rating_review":{
+        "imdb_review" : {
+                        "rating" : 8.4
+                        },
+        "tomato_review" : {
+                        "rating" : 8.9
+                         },
+    
+        "user_review" : [ 
+                         {
+                          "name" : "Arun",
+                         "rating" : 9.4,
+                         "comment" : "very good"        
+                         }
+                        ]
+                    }
+})
+
+db.movie.insert(
+{
+  
+    "title" : "Iron Man 1",
+    "img" : "Iron_man_1.jpg",
+    "year" : 2008,
+    "movie_type" : "U",
+    "released" : ISODate("2008-05-02T04:00:00.000Z"),
+    "runtime" : 130,
+    "category" :  "Action and Sci-Fi",
+    "director" : "Jon Favreau",
+    "writer" : "Mark Fergus",
+    "plot" : "After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.",
+    "awards" : {
+        "wins" : 20,
+        "nominations" : 65
+                },
+    "rating_review":{
+            "imdb_review" : {
+                        "rating" : 7.9
+                            },
+            "tomato_review" : {
+                        "rating" : 8.1
+                            },
+
+            "user_review" : [ 
+                             {
+                          "name" : "Arun",
+                         "rating" : 9.4,
+                         "comment" : "very good"        
+                              }
+                             ]
+                         }
+})
+
+db.movie.insert(
+{
+  
+    "title" : "Avengers Endgame",
+    "img" : "avengers_endgame.jpg",
+    "year" : 2019,
+    "movie_type" : "U",
+    "released" : ISODate("2019-04-26T04:00:00.000Z"),
+    "runtime" : 206,
+    "category" :  "Adventure and Drama",
+    "director" : "Joe Russo",
+    "writer" :  " Christopher Markus",
+    "plot" : "Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+    "awards" : {
+        "wins" : 21,
+        "nominations" : 28
+                },
+    "rating_review":{
+                "imdb_review" : {
+                            "rating" : 9.9
+                            },
+                "tomato_review" : {
+                            "rating" : 9.5
+                            },
+                "user_review" : [ 
+                            {
+                          "name" : "Arun",
+                         "rating" : 9.4,
+                         "comment" : "very good"        
+                         }
+                    ]}
+})
+
+db.movie.drop()
+db.movie.find()
+
+db.movie_admin.insert(
+    {
+        "admin_name":"admin";
+        "password":"admin";
+    })
+
+
+db.movie_users.find()
+
+db.movie_users.drop()
+
+db.movie.find({"title":"Toy Story 4"})
+
+db.movie.find({"title":"Iron Man 1"})
+
+db.movie.find({"title":"Avengers Endgame"})
+
+db.movie.aggregate([{$match:{"title":"Toy Story 4"}}])
+
+db.movie.aggregate([{$match:{"title":"Iron Man 1"}}])
+
+db.movie.aggregate([{$match:{"title":"Avengers Endgame"}}])
+
+db.movies.find()
+
+db.movie.aggregate([
+{$match:{"title":"Toy Story 4"}},
+{$unwind:'$rating_review.user_review'},
+{$sort:{'rating_review.user_review.rating':1}},
+{$group:{"_id":"$rating","user_review":{$push:"$rating_review.user_review"}}},
+{$project:{"rating_review.user_review":"$user_review"}}
+]);
+
+
+db.movie.aggregate([
+{$match:{"title":"Iron Man 1"}},
+{$unwind:'$rating_review.user_review'},
+{$sort:{'rating_review.user_review.rating':1}},
+{$group:{"_id":"$rating","user_review":{$push:"$rating_review.user_review"}}},
+{$project:{"rating_review.user_review":"$user_review"}}
+]);
+
+db.movie.aggregate([
+{$match:{"title":"Avengers Endgame"}},
+{$unwind:'$rating_review.user_review'},
+{$sort:{'rating_review.user_review.rating':1}},
+{$group:{"_id":"$rating","user_review":{$push:"$rating_review.user_review"}}},
+{$project:{"rating_review.user_review":"$user_review"}}
+]);
+
+
+
+
+
+
+
+
